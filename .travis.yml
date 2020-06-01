@@ -17,7 +17,7 @@ jobs:
       if: branch = master
       script: cd home_insurance_app; ../flutter/bin/flutter test;
     - stage: format
-      script: ./flutter/bin/flutter format -n --set-exit-if-changed folder/lib/*
+      script: ./flutter/bin/flutter format -n --set-exit-if-changed home_insurance_app/lib/*
 
 cache:
   directories:
