@@ -7,13 +7,27 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:homeinsuranceapp/components/rounded_button.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
-
+import 'package:homeinsuranceapp/constants.dart';
 GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['profile', 'email']);
+Class id = new Class();
+   // Car c= new Car();
+//void main() => runApp(MaterialApp(
+//  title: 'Smart Home',
+//  home: SignInDemo(),
+//));
+void main() {
+  runApp(MyApp());
+}
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Smart Home',
+      home: SignInDemo(),
 
-void main() => runApp(MaterialApp(
-  title: 'Smart Home',
-  home: SignInDemo(),
-));
+    );
+  }
+}
 
 class SignInDemo extends StatefulWidget {
   @override
@@ -115,6 +129,33 @@ class _SignInDemoState extends State<SignInDemo> {
     _googleSignIn.disconnect();
   }
   Future<void> auth ( )async{
+
+String _clientId= id.clientId;
+String _clientSecret= id.clientSecret;
+String _url = id.url;
+String _url2 =id.url2;
+List<String> _scopes = id.scopes;
+    Uri.parse(_url);
+
+
+    var authClient = await clientViaUserConsent(
+        ClientId(_clientId, _clientSecret), _scopes, (url) {
+      launch(url);
+    });
+
+    String a = authClient.credentials.accessToken.data;
+    print("Access Token");
+    print(a);
+
+
+    final client = new http.Client();
+    final response = await client.post(
+      _url2,
+      headers: {HttpHeaders.authorizationHeader: 'Bearer $a'},
+    );
+    final responseJson = json.decode(response.body);
+
+    print(responseJson['error']);
 
   }
 
